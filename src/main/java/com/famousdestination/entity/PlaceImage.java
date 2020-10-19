@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +30,12 @@ public class PlaceImage {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "imageName")
+	@Column(name = "image_name")
 	private String imageName;
 	
-	@Lob
-	@Column(name = "imageBytes")
+	@Lob 
+	@Column(name = "image_bytes") 
+	@Type(type="org.hibernate.type.BinaryType") 
 	private byte[] imageBytes; 
 	
 }

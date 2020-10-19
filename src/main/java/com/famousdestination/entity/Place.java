@@ -32,28 +32,28 @@ public class Place {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "placeName")
+	@Column(name = "place_name")
 	private String placeName;
 	
 	@Column(name = "placelocation")
 	private String placelocation;
 	
-	@Column(name = "placeDescription")
+	@Column(name = "place_description")
 	private String placeDescription;
 	
-	@Column(name = "placeRatings")
+	@Column(name = "place_ratings")
 	private String placeRatings;
 	
 	
 	@OneToOne(fetch = FetchType.EAGER, 
 			  cascade = CascadeType.ALL)
-	@JoinColumn(name = "placeImg")
+	@JoinColumn(name = "place_img")
 	private PlaceImage placeImg; 
 	
 	
 	@OneToOne(fetch = FetchType.EAGER, 
 			  cascade = { CascadeType.REFRESH })
-	@JoinColumn(name = "countryId")
+	@JoinColumn(name = "country_id")
 	private Country country;   
 
 
