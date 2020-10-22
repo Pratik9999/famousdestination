@@ -146,9 +146,19 @@ public class Controller {
 	} 
 	
 	// update images
-	@PutMapping("/images/{id}")
-	public String updateImage(PlaceImage placeImage) {
-		return placeImageService.update(placeImage);
+	@PutMapping("/images")
+	public String updateImage(@RequestParam("data") String data, @RequestParam("image") MultipartFile Mfile) {
+		
+		Gson g = new Gson(); 
+		PlaceImage imageObj = g.fromJson(data, PlaceImage.class); 
+		
+		try {
+			imageObj.setImageBytes(Mfile.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return placeImageService.update(imageObj); 
 	}
 
 	
