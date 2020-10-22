@@ -146,13 +146,14 @@ public class Controller {
 	} 
 	
 	// update images
-	@PutMapping("/images")
-	public String updateImage(@RequestParam("data") String data, @RequestParam("image") MultipartFile Mfile) {
-		
-		Gson g = new Gson(); 
-		PlaceImage imageObj = g.fromJson(data, PlaceImage.class); 
-		
+	@PutMapping("/images/{id}")
+	public String updateImage(@PathVariable int id, @RequestParam("image") MultipartFile Mfile) {
+		 
+		PlaceImage imageObj = new PlaceImage();
+
 		try {
+			imageObj.setId(id);
+			imageObj.setImageName(StringUtils.cleanPath(Mfile.getOriginalFilename())); 
 			imageObj.setImageBytes(Mfile.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
