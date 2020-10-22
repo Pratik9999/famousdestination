@@ -10,7 +10,9 @@ public interface PlaceImageService {
 	
 	public PlaceImage findByImageName(String name);
 	
-	public String save();
+	public String save(PlaceImage placeImage); 
+	
+	public String update(PlaceImage placeImage);
 	
 	public String deleteById(); 
 	

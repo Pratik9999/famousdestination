@@ -144,6 +144,12 @@ public class Controller {
 		return new ResponseEntity<List<PlaceResponse>>(placeResponse, HttpStatus.OK);
 		
 	} 
+	
+	// update images
+	@PutMapping("/images/{id}")
+	public String updateImage(PlaceImage placeImage) {
+		return placeImageService.update(placeImage);
+	}
 
 	
 

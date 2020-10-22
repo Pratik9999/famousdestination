@@ -25,8 +25,20 @@ public class PlaceImageSeviceImpl implements PlaceImageService {
 	}
 
 	@Override
-	public String save() {
-		return null;
+	public String save(PlaceImage placeImage) { 
+		
+		placeImage.setId(0);
+		placeImageDAO.save(placeImage);
+		
+		return "saved image";
+	}
+	
+	@Override
+	public String update(PlaceImage placeImage) { 
+		
+		placeImageDAO.save(placeImage);
+		
+		return "update image";
 	}
 
 	@Override
