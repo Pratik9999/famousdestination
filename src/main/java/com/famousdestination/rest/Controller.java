@@ -113,7 +113,7 @@ public class Controller {
 		thePlace.setPlaceImg(img);
 
 		
-		return placeService.savePlace(thePlace);
+		return placeService.savePlace(thePlace); 
 	}
 	
 	// Delete Place
@@ -126,9 +126,7 @@ public class Controller {
 	@GetMapping(value = "/images/{name}") 
 	ResponseEntity<byte[]> getImageById(@PathVariable String name) {
 		
-		System.out.println("hi"); 
-		
-		PlaceImage img = placeImageService.findByImageName(name);
+		PlaceImage img = placeImageService.findByImageName(name); 
 		
 		if(img == null) {
 			throw new PlaceNotFoundException("Cannot found image with name of " + name);
@@ -176,7 +174,6 @@ public class Controller {
 	@GetMapping( value = "/images/{imgName}", params = {"width", "height"} )            
 	ResponseEntity<byte[]> imgByWidthAndHeight(@PathVariable String imgName, @RequestParam int width, @RequestParam int height) {
 		
-		System.out.println("Helloooo");
 		PlaceImage img = placeImageService.findByImageName(imgName); 
 		
 		if(img == null) {
