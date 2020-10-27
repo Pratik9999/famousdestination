@@ -1,8 +1,15 @@
 package com.famousdestination.rest;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -116,8 +123,10 @@ public class Controller {
 	} 
 	
 	// Get Image
-	@GetMapping("/images/{name}")
+	@GetMapping(value = "/images/{name}") 
 	ResponseEntity<byte[]> getImageById(@PathVariable String name) {
+		
+		System.out.println("hi"); 
 		
 		PlaceImage img = placeImageService.findByImageName(name);
 		
@@ -161,6 +170,49 @@ public class Controller {
 		
 		return placeImageService.update(imageObj); 
 	}
+	
+	
+	// Get image by width and height
+	@GetMapping( value = "/images/{imgName}", params = {"width", "height"} )            
+	ResponseEntity<byte[]> imgByWidthAndHeight(@PathVariable String imgName, @RequestParam int width, @RequestParam int height) {
+		
+		System.out.println("Helloooo");
+		PlaceImage img = placeImageService.findByImageName(imgName); 
+		
+		if(img == null) {
+			throw new PlaceNotFoundException("Cannot found image with name of " + imgName); 
+		}  
+		
+		InputStream in = new ByteArrayInputStream(img.getImageBytes()); 
+		BufferedImage bi;
+		BufferedImage image; 
+		byte[] bytes = null; 
+		try {
+			
+			bi = ImageIO.read(in);
+			image =  Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_EXACT, 
+									width, height, Scalr.OP_ANTIALIAS);   
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", baos);  
+			bytes = baos.toByteArray(); 
+			
+		} catch (IOException e) {
+			e.printStackTrace();  
+		}  
+		
+		
+
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.IMAGE_JPEG)  
+				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + img.getImageName())
+				.body(bytes);     
+		
+	}
+	
+	
+	
 
 	
 
